@@ -35,23 +35,29 @@ FILE *trace = NULL;
     fprintf(trace, __VA_ARGS__);        \
     fputc('\n', trace);
 
-#define INPUT_VALUES(...)                       \
-    fprintf(trace, "TEST %d\n", TestCounter);   \
+#define ADDITIONAL_INFO(...) \
+    PRINT_TRACE("Additional info: ", __VA_ARGS__);
+
+#define INPUT_VALUES(...)                         \
+    fprintf(trace, "\nTEST %d\n", TestCounter);   \
+    if (TestResult) fprintf(trace, "OK\n");       \
+    else fprintf(trace, "ERROR\n");               \
     PRINT_TRACE("input: ", __VA_ARGS__);
 
-#define OUTPUT_VALUES(...)                      \
+#define OUTPUT_VALUES(...) \
     PRINT_TRACE("output: ", __VA_ARGS__);
 
-#define EXPECTED_VALUES(...)                    \
-    PRINT_TRACE("expected: ", __VA_ARGS__)      \
-    fputc('\n',trace);     
+#define EXPECTED_VALUES(...) \
+    PRINT_TRACE("expected: ", __VA_ARGS__)      
+
 /*
  * Проверка на равенство значений и вывод результата теста 
  */
 #define TEST(_func, ...)                        \
     func_return = _func;                        \
     printf("TEST %d\n", TestCounter);           \
-    if (__VA_ARGS__)                            \
+    TestResult = (__VA_ARGS__);                 \
+    if (TestResult)                             \
         printf("OK\n");                         \
     else                                        \
         printf("ERROR\n");
@@ -102,7 +108,6 @@ test_solve_equation(void)
 
     double ex_x1 = 0, ex_x2 = 0;
     int ex_func_return = 0;
-
 
     /********************* test 1 *********************/
     a = -1, b = 0, c = 4; 
@@ -170,6 +175,21 @@ test_solve_equation(void)
     INPUT_VALUES("a=%lf b=%lf c=%lf", a, b, c);
     OUTPUT_VALUES("x1=%lf x2=%lf QEState=%d", x1, x2, func_return);
     EXPECTED_VALUES("x1=%lf x2=%lf QEState=%d", ex_x1, ex_x2, ex_func_return);   
+    TestCounter++;
+
+    /********************* test 6 *********************/
+    a = 1, b = 1, c = -0.7; 
+    ex_x2 = 0.474679435, ex_func_return = QES_TwoSolution; 
+    TEST 
+    (
+        solve_equation(NULL, &x2, a, b, c),
+        RD(x2) == RD(ex_x2) &&
+        func_return == ex_func_return
+    )
+    INPUT_VALUES("a=%lf b=%lf c=%lf", a, b, c);
+    OUTPUT_VALUES("x1=%lf x2=%lf QEState=%d", x1, x2, func_return);
+    EXPECTED_VALUES("x1=%lf x2=%lf QEState=%d", ex_x1, ex_x2, ex_func_return);   
+    ADDITIONAL_INFO("Тест на наличие NULL значения вместо указателя на первый корень");
     TestCounter++;
 
     printf("\nДетали можно посмотреть в test/traces\n");
