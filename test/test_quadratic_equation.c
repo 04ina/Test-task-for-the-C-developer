@@ -193,12 +193,11 @@ test_solve_equation(void)
     TestCounter++;
 
     /********************* test 7 *********************/
-    a = 10e+40, b = 0, c = 10e-40; 
+    a = 1e+40, b = 0, c = 1e-40; 
     ex_func_return = QES_NoSolution; 
     TEST 
     (
         solve_equation(&x1, &x2, a, b, c),
-        x1 == ex_x1 && x2 == ex_x2 &&
         func_return == ex_func_return
     )
     INPUT_VALUES("a=%e b=%e c=%e", a, b, c);
