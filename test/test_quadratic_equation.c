@@ -198,7 +198,7 @@ test_solve_equation(void)
     TEST 
     (
         solve_equation(&x1, &x2, a, b, c),
-        RD(x1) == RD(ex_x1) && RD(x2) == RD(ex_x2) &&
+        x1 == ex_x1 && x2 == ex_x2 &&
         func_return == ex_func_return
     )
     INPUT_VALUES("a=%e b=%e c=%e", a, b, c);
