@@ -192,5 +192,46 @@ test_solve_equation(void)
     ADDITIONAL_INFO("Тест на наличие NULL значения вместо указателя на первый корень");
     TestCounter++;
 
+    /********************* test 7 *********************/
+    a = 10e+40, b = 0, c = 10e-40; 
+    ex_func_return = QES_NoSolution; 
+    TEST 
+    (
+        solve_equation(&x1, &x2, a, b, c),
+        RD(x1) == RD(ex_x1) && RD(x2) == RD(ex_x2) &&
+        func_return == ex_func_return
+    )
+    INPUT_VALUES("a=%e b=%e c=%e", a, b, c);
+    OUTPUT_VALUES("QEState=%d", func_return);
+    EXPECTED_VALUES("QEState=%d", ex_func_return);   
+    TestCounter++;
+
+    /********************* test 8 *********************/
+    a = 1e+40, b = 0, c = -1e-40; 
+    ex_x1 = -1e-40, ex_x2 = 1e-40, ex_func_return = QES_TwoSolution; 
+    TEST 
+    (
+        solve_equation(&x1, &x2, a, b, c),
+        x1 == ex_x1 && x2 == ex_x2 &&
+        func_return == ex_func_return
+    )
+    INPUT_VALUES("a=%e b=%e c=%e", a, b, c);
+    OUTPUT_VALUES("x1=%e x2=%e QEState=%d", x1, x2, func_return);
+    EXPECTED_VALUES("x1=%e x2=%e QEState=%d", ex_x1, ex_x2, ex_func_return);   
+    TestCounter++;
+
+    /********************* test 9 *********************/
+    a = INFINITY, b = NAN, c = 0; 
+    ex_func_return = QES_ERROR; 
+    TEST 
+    (
+        solve_equation(&x1, &x2, a, b, c),
+        func_return == ex_func_return
+    )
+    INPUT_VALUES("a=%e b=%e c=%e", a, b, c);
+    OUTPUT_VALUES("QEState=%d", func_return);
+    EXPECTED_VALUES("QEState=%d", ex_func_return);   
+    TestCounter++;
+
     printf("\nДетали можно посмотреть в test/traces\n");
 }

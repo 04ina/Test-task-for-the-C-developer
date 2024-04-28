@@ -4,53 +4,80 @@ OK
 input: 
 a=-1.000000 b=0.000000 c=4.000000
 output: 
-x1=-2.000000 x2=2.000000 QEState=1
+x1=-2.000000 x2=2.000000 QEState=2
 expected: 
-x1=-2.000000 x2=2.000000 QEState=1
+x1=-2.000000 x2=2.000000 QEState=2
 
 TEST 2
 OK
 input: 
 a=-1.000000 b=0.000000 c=6.000000
 output: 
-x1=-2.449490 x2=2.449490 QEState=1
+x1=-2.449490 x2=2.449490 QEState=2
 expected: 
-x1=-2.449490 x2=2.449490 QEState=1
+x1=-2.449490 x2=2.449490 QEState=2
 
 TEST 3
 OK
 input: 
 a=0.000000 b=0.000000 c=0.000000
 output: 
-QEState=3
+QEState=4
 expected: 
-QEState=3
+QEState=4
 
 TEST 4
 OK
 input: 
 a=2.000000 b=2.000000 c=2.000000
 output: 
-QEState=2
+QEState=3
 expected: 
-QEState=2
+QEState=3
 
 TEST 5
 OK
 input: 
 a=-4.900000 b=0.000000 c=0.000000
 output: 
-x1=0.000000 x2=0.000000 QEState=0
+x1=0.000000 x2=0.000000 QEState=1
 expected: 
-x1=0.000000 x2=0.000000 QEState=0
+x1=0.000000 x2=0.000000 QEState=1
 
 TEST 6
 OK
 input: 
 a=1.000000 b=1.000000 c=-0.700000
 output: 
-x1=0.000000 x2=0.474679 QEState=1
+x1=0.000000 x2=0.474679 QEState=2
 expected: 
-x1=0.000000 x2=0.474679 QEState=1
+x1=0.000000 x2=0.474679 QEState=2
 Additional info: 
 Тест на наличие NULL значения вместо указателя на первый корень
+
+TEST 7
+OK
+input: 
+a=1.000000e+41 b=0.000000e+00 c=1.000000e-39
+output: 
+QEState=3
+expected: 
+QEState=3
+
+TEST 8
+OK
+input: 
+a=1.000000e+40 b=0.000000e+00 c=-1.000000e-40
+output: 
+x1=-1.000000e-40 x2=1.000000e-40 QEState=2
+expected: 
+x1=-1.000000e-40 x2=1.000000e-40 QEState=2
+
+TEST 9
+OK
+input: 
+a=inf b=nan c=0.000000e+00
+output: 
+QEState=0
+expected: 
+QEState=0

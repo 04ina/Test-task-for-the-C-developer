@@ -20,6 +20,7 @@
  */
 typedef enum 
 {
+    QES_ERROR,
     QES_OneSolution,
     QES_TwoSolution,
     QES_NoSolution,

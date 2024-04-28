@@ -17,16 +17,19 @@
  * Входные параметры:
  * 1. указатели на переменные, в которые будет записан ответ.
  * 
- *    Если у уравнения несколько корней, то они запишутся в возрастающем порядке.
+ *    Если у уравнения несколько корней, то они запишутся в Sol1 и Sol2 в 
+ *    возрастающем порядке.
  * 
- *    Можно указать NULL вместо указателя корень, в таком случае мы просто не
- *    получим ответ. Таким образом, с помощью данной функции можно также просто
- *    узнать о наличии или отсутствии корней квадратного уравнения.
- * 
+ *    Можно указать NULL вместо аргументов Sol1 и Sol2, в таком случае мы 
+ *    просто не получим корни уравнения. 
+ *
  * 2. коэффициенты квадратного уравнения a, b и c
  *     
  * Возвращает состояние решения квадратного уравнения. 
- * Перечисление с состояниями QEState смотреть в quadratic_equation.h 
+ * Перечисление с состояниями QEState можно смотреть в quadratic_equation.h 
+ *
+ * Если аргументы или возвращаемые значения будут являться inf или nan,
+ * функция вернет QES_ERROR 
  */
 int
 solve_equation(double *Sol1, double *Sol2, double a, double b, double c)
@@ -36,6 +39,9 @@ solve_equation(double *Sol1, double *Sol2, double a, double b, double c)
     double x1 = 0;
     double x2 = 0;
    
+    if (isfinite(a) == 0 || isfinite(b) == 0 || isfinite(c) == 0)
+        return QES_ERROR;
+
     /* Бесконечное число решений */
     if (a == 0 && b == 0 && c == 0)
         return QES_InfSolution;
@@ -51,7 +57,7 @@ solve_equation(double *Sol1, double *Sol2, double a, double b, double c)
 
     if (discriminant > 0)
     {
-        /* Два разных корня*/
+        /* Два разных корня */
         x1 = (- b - sqrt(discriminant)) / (2 * a);
         x2 = (- b + sqrt(discriminant)) / (2 * a);
 
@@ -73,6 +79,9 @@ solve_equation(double *Sol1, double *Sol2, double a, double b, double c)
         /* Нет корней */
         return QES_NoSolution;
     }
+
+    if (isfinite(x1) == 0 || isfinite(x2) == 0)
+        return QES_ERROR;
 
     if (Sol1 != NULL)
         *Sol1 = x1;  
