@@ -11,6 +11,8 @@
 
 #include "quadratic_equation.h"
 
+#include <math.h>
+#include <stddef.h>
 /*
  * solve_equation решает квадратные уравнения в вещественных числах
  * 
