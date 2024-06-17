@@ -12,8 +12,6 @@
 #ifndef QUADRATIC_EQUATION_H
 #define QUADRATIC_EQUATION_H 
 
-#include <math.h>
-#include <stddef.h>
 
 /*
  * Перечисление, определяющее состояние решения квадратного уравнения
