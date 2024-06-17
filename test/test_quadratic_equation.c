@@ -78,16 +78,25 @@ main(int argc, char **argv)
 		}
 	}
 
+	
+	
 	/* Set the trace file, if requested */
 	if (tracefile != NULL)
 	{
-		if (strcmp(tracefile, "-") == 0)
-            trace = stdout;
-		else
-			trace = fopen(tracefile, "w");
+		trace = fopen(tracefile, "w");
 		if (trace == NULL)
-            fprintf(stderr, "could not open file \"%s\"", tracefile);
+		{
+			fprintf(stderr, "could not open file \"%s\"", tracefile);
+			return 0;
+		}
+            		
 	}
+	else
+	{
+		fprintf(stderr, "missing required argument \"-t\"");
+		return 0;
+	}
+	
     
     test_solve_equation();
 
@@ -232,5 +241,5 @@ test_solve_equation(void)
     EXPECTED_VALUES("QEState=%d", ex_func_return);   
     TestCounter++;
 
-    printf("\nДетали можно посмотреть в test/traces\n");
+    printf("\nДетали можно посмотреть в директории test/traces\n");
 }
